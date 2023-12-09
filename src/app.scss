@@ -15,11 +15,14 @@
     .heading {
         font-size: 1.6rem;
         margin-bottom: 10px;
+        color: blueviolet;
     }
 
     .newTodo {
         padding: 5px;
         width: 600px;
+        border: 1px solid orange;
+        outline: none;
     }
 
     .todo-container {
@@ -34,6 +37,7 @@
             border: 1px solid blueviolet;
             margin-bottom: 5px;
             padding: 5px;
+            color: orange;
 
             .checkbox {
                 margin-right: 7px;
@@ -47,8 +51,9 @@
         align-items: center;
         margin-top: 10px;
         width: 600px;
-        background-color: antiquewhite;
+        background-color: orange;
         padding: 5px;
+        color: blueviolet;
 
         button {
             margin-right: 5px;
@@ -56,6 +61,7 @@
             border: none;
             outline: none;
             background-color: transparent;
+            color: blueviolet;
         }
 
         .active {
