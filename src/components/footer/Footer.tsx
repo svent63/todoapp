@@ -1,16 +1,17 @@
 import React, { Fragment } from 'react';
 
-import { ButtonGroup } from '../button-group/ButtonGroup';
+import { ButtonGroup, FilterType } from '../button-group/ButtonGroup';
 
 type FooterProps = {
     itemCount: number;
+    setFilterType: (filter: FilterType) => void;
 };
 
-const Footer = ({ itemCount }: FooterProps) => {
+const Footer = ({ itemCount, setFilterType }: FooterProps) => {
     return (
         <Fragment>
             {itemCount} Items
-            <ButtonGroup buttons={['All', 'Active', 'Completed']} />
+            <ButtonGroup buttons={['All', 'Active', 'Completed']} setFilterType={setFilterType} />
         </Fragment>
     );
 };

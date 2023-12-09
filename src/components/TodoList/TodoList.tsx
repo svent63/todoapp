@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import { useIndexedDB } from 'react-indexed-db-hook';
 
 import { Checkbox } from '../checkbox/Checkbox';
@@ -10,19 +10,29 @@ type TodoItemRecord = {
 };
 
 type TodoListProps = {
+    filter: number;
     setItemCount: (value: number) => void;
 };
 
-const TodoList = ({ setItemCount }: TodoListProps) => {
+const TodoList = forwardRef(({ filter, setItemCount }: TodoListProps, ref) => {
     const [todoItems, setTodoItems] = useState<TodoItemRecord[]>([]);
     const { getAll } = useIndexedDB('todo');
+
+    useImperativeHandle(ref, () => ({
+        addTodoToList(obj) {
+            const newItem: TodoItemRecord = { id: obj.id, complete: obj.complete, task: obj.task };
+            const oldList = [...todoItems];
+            oldList.push(newItem);
+            setTodoItems(oldList);
+        },
+    }));
 
     useEffect(() => {
         getAll().then((todoItemFromDb) => {
             setTodoItems(todoItemFromDb);
         });
         setItemCount(todoItems.length);
-    });
+    }, []);
 
     const todoItemList = todoItems.map((item, i) => {
         return (
@@ -33,11 +43,7 @@ const TodoList = ({ setItemCount }: TodoListProps) => {
         );
     });
 
-    return (
-        <Fragment>
-            <ul>{todoItemList}</ul>
-        </Fragment>
-    );
-};
+    return <ul>{todoItemList}</ul>;
+});
 
 export { TodoList };
