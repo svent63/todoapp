@@ -1,6 +1,8 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { useIndexedDB } from 'react-indexed-db-hook';
 
+import { Checkbox } from '../checkbox/Checkbox';
+
 type TodoItemRecord = {
     id: number;
     complete: boolean;
@@ -15,12 +17,12 @@ const TodoList = () => {
         getAll().then((todoItemFromDb) => {
             setTodoItems(todoItemFromDb);
         });
-    }, []);
+    });
 
     const todoItemList = todoItems.map((item, i) => {
         return (
             <li key={i}>
-                <input type='checkbox' name='' id='' checked={item.complete} />
+                <Checkbox isChecked={item.complete} />
                 {item.task}
             </li>
         );
