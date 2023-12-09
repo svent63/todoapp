@@ -11,6 +11,7 @@ initDB(DBConfig);
 
 const App = () => {
     const [newTodoItem, setNewTodoItem] = useState('');
+    const [itemCount, setItemCount] = useState(0);
     const { add } = useIndexedDB('todo');
 
     const handleEnterKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -40,10 +41,10 @@ const App = () => {
                     onKeyUp={handleEnterKey}
                 />
                 <div className='todo-container'>
-                    <TodoList />
+                    <TodoList setItemCount={setItemCount} />
                 </div>
                 <div className='footer-container'>
-                    <Footer />
+                    <Footer itemCount={itemCount} />
                 </div>
             </div>
         </Fragment>

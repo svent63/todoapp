@@ -9,7 +9,11 @@ type TodoItemRecord = {
     task: string;
 };
 
-const TodoList = () => {
+type TodoListProps = {
+    setItemCount: (value: number) => void;
+};
+
+const TodoList = ({ setItemCount }: TodoListProps) => {
     const [todoItems, setTodoItems] = useState<TodoItemRecord[]>([]);
     const { getAll } = useIndexedDB('todo');
 
@@ -17,6 +21,7 @@ const TodoList = () => {
         getAll().then((todoItemFromDb) => {
             setTodoItems(todoItemFromDb);
         });
+        setItemCount(todoItems.length);
     });
 
     const todoItemList = todoItems.map((item, i) => {

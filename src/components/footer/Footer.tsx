@@ -2,10 +2,14 @@ import React, { Fragment } from 'react';
 
 import { ButtonGroup } from '../button-group/ButtonGroup';
 
-const Footer = () => {
+type FooterProps = {
+    itemCount: number;
+};
+
+const Footer = ({ itemCount }: FooterProps) => {
     return (
         <Fragment>
-            3 Items
+            {itemCount} Items
             <ButtonGroup buttons={['All', 'Active', 'Completed']} />
         </Fragment>
     );
