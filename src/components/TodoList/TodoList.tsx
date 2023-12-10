@@ -64,10 +64,7 @@ const TodoList = forwardRef(({ filter, setItemCount }: TodoListProps, ref) => {
     }, [filter]);
 
     const updateTaskStatus = (id: number, status: boolean) => {
-        console.log('updateTaskStatus was called');
         getAll().then((dataList) => {
-            console.log('reading all the records from the database');
-            console.log(dataList);
             let list: TodoItemRecord[] = [];
             if (filter === FilterType.FILTER_NONE) {
                 list = dataList;
@@ -83,7 +80,6 @@ const TodoList = forwardRef(({ filter, setItemCount }: TodoListProps, ref) => {
     };
 
     const todoItemList = todoItems.map((item, i) => {
-        console.log(item.id);
         return (
             <li key={i}>
                 <Checkbox id={item.id} isChecked={item.complete} task={item.task} updateTaskStatus={updateTaskStatus} />
@@ -91,8 +87,6 @@ const TodoList = forwardRef(({ filter, setItemCount }: TodoListProps, ref) => {
             </li>
         );
     });
-
-    console.log(filter);
 
     return <ul>{todoItemList}</ul>;
 });

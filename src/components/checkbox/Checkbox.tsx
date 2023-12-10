@@ -24,9 +24,7 @@ const Checkbox = ({ id, isChecked, task, updateTaskStatus }: CheckboxProps) => {
 
     const handleChange = () => {
         update({ id: id, complete: !isChecked, task: task }).then((event) => {
-            getByID(id).then((updatedRecord: TodoItemRecord) => {
-                console.log(`record updated ${updatedRecord.id} - ${updatedRecord.complete}`);
-            });
+            getByID(id).then((updatedRecord: TodoItemRecord) => {});
             setChecked(!checked);
         });
     };
