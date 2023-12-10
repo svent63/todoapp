@@ -38,7 +38,7 @@ const App = () => {
                 <input
                     type='text'
                     className='newTodo'
-                    placeholder='Add to do'
+                    placeholder='Add to do item'
                     value={newTodoItem}
                     onChange={(e) => setNewTodoItem(e.target.value)}
                     onKeyUp={handleEnterKey}
