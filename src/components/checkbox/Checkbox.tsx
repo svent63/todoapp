@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useIndexedDB } from 'react-indexed-db-hook';
+
+import { TodoItemRecord } from '../TodoList/TodoList';
 
 type CheckboxProps = {
     id: number;
@@ -9,17 +11,27 @@ type CheckboxProps = {
 };
 
 const Checkbox = ({ id, isChecked, task, updateTaskStatus }: CheckboxProps) => {
-    const [checked, setChecked] = useState(isChecked);
-    const { update } = useIndexedDB('todo');
+    const [checked, setChecked] = useState(() => (isChecked ? true : false));
+    const { update, getByID } = useIndexedDB('todo');
 
-    const handleChange = (id: number) => {
-        setChecked(!checked);
-        update({ id: id, complete: !checked, task: task }).then(() => {
-            updateTaskStatus(id, !checked);
+    useEffect(() => {
+        setChecked(isChecked);
+    }, []);
+
+    useEffect(() => {
+        updateTaskStatus(id, checked);
+    }, [checked]);
+
+    const handleChange = () => {
+        update({ id: id, complete: !isChecked, task: task }).then((event) => {
+            getByID(id).then((updatedRecord: TodoItemRecord) => {
+                console.log(`record updated ${updatedRecord.id} - ${updatedRecord.complete}`);
+            });
+            setChecked(!checked);
         });
     };
 
-    return <input type='checkbox' name='' id='' checked={checked} onChange={() => handleChange(id)} />;
+    return <input type='checkbox' name='' id='' checked={isChecked} onChange={() => handleChange()} />;
 };
 
 export { Checkbox };
