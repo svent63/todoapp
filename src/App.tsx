@@ -21,7 +21,6 @@ const App = () => {
         if (e.key === 'Enter') {
             add({ complete: false, task: newTodoItem }).then(
                 (event) => {
-                    console.log('Item added to list ', event.toString());
                     childRef.current.addTodoToList({ complete: false, task: newTodoItem, id: event });
                 },
                 (error) => {
@@ -29,7 +28,6 @@ const App = () => {
                 }
             );
             setNewTodoItem('');
-            console.log('+++++++++++');
         }
     };
 
