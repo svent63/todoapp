@@ -24,17 +24,22 @@ const TodoList = forwardRef(({ filter, setItemCount }: TodoListProps, ref) => {
 
     useImperativeHandle(ref, () => ({
         addTodoToList(obj: TodoItemRecord) {
+            listData = [];
+            getAll().then((dataList) => {
+                listData = dataList;
+                let list: TodoItemRecord[] = [];
+                if (filter === FilterType.FILTER_NONE) {
+                    list = listData;
+                } else if (filter === FilterType.FILTER_ACTIVE) {
+                    list = listData.filter((item) => item.complete === false);
+                } else if (filter === FilterType.FILTER_COMPLETE) {
+                    list = listData.filter((item) => item.complete === true);
+                }
+                setTodoItems(list);
+            });
+
             // const newItem: TodoItemRecord = { id: obj.id, complete: obj.complete, task: obj.task };
             // listData.push(newItem);
-            // let list: TodoItemRecord[] = [];
-            // if (filter === FilterType.FILTER_NONE) {
-            //     list = listData;
-            // } else if (filter === FilterType.FILTER_ACTIVE) {
-            //     list = listData.filter((item) => item.complete === false);
-            // } else if (filter === FilterType.FILTER_COMPLETE) {
-            //     list = listData.filter((item) => item.complete === true);
-            // }
-            // setFilteredList(list);
             // setItemCount(list.length);
         },
     }));
@@ -57,8 +62,8 @@ const TodoList = forwardRef(({ filter, setItemCount }: TodoListProps, ref) => {
             list = listData.filter((item) => item.complete === true);
         }
 
-        // setFilteredList(list);
-        // setItemCount(list.length);
+        setTodoItems(list);
+        setItemCount(list.length);
     }, [filter]);
 
     const updateTaskStatus = (id: number, status: boolean) => {
