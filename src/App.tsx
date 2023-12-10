@@ -22,12 +22,12 @@ const App = () => {
             add({ complete: false, task: newTodoItem }).then(
                 (event) => {
                     childRef.current.addTodoToList({ complete: false, task: newTodoItem, id: event });
+                    setNewTodoItem('');
                 },
                 (error) => {
                     console.log(error);
                 }
             );
-            setNewTodoItem('');
         }
     };
 
