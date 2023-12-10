@@ -18,35 +18,33 @@ type TodoListProps = {
 let listData: TodoItemRecord[] = [];
 
 const TodoList = forwardRef(({ filter, setItemCount }: TodoListProps, ref) => {
-    // const [todoItems, setTodoItems] = useState<TodoItemRecord[]>([]);
-    const [filteredList, setFilteredList] = useState<TodoItemRecord[]>([]);
+    const [todoItems, setTodoItems] = useState<TodoItemRecord[]>([]);
+    // const [filteredList, setFilteredList] = useState<TodoItemRecord[]>([]);
     const { getAll } = useIndexedDB('todo');
 
     useImperativeHandle(ref, () => ({
         addTodoToList(obj: TodoItemRecord) {
-            const newItem: TodoItemRecord = { id: obj.id, complete: obj.complete, task: obj.task };
-            listData.push(newItem);
-
-            let list: TodoItemRecord[] = [];
-            if (filter === FilterType.FILTER_NONE) {
-                list = listData;
-            } else if (filter === FilterType.FILTER_ACTIVE) {
-                list = listData.filter((item) => item.complete === false);
-            } else if (filter === FilterType.FILTER_COMPLETE) {
-                list = listData.filter((item) => item.complete === true);
-            }
-
-            setFilteredList(list);
-            setItemCount(list.length);
+            // const newItem: TodoItemRecord = { id: obj.id, complete: obj.complete, task: obj.task };
+            // listData.push(newItem);
+            // let list: TodoItemRecord[] = [];
+            // if (filter === FilterType.FILTER_NONE) {
+            //     list = listData;
+            // } else if (filter === FilterType.FILTER_ACTIVE) {
+            //     list = listData.filter((item) => item.complete === false);
+            // } else if (filter === FilterType.FILTER_COMPLETE) {
+            //     list = listData.filter((item) => item.complete === true);
+            // }
+            // setFilteredList(list);
+            // setItemCount(list.length);
         },
     }));
 
     useEffect(() => {
         getAll().then((todoItemFromDb) => {
             listData = todoItemFromDb;
-            setFilteredList(todoItemFromDb);
+            setTodoItems(todoItemFromDb);
         });
-        setItemCount(filteredList.length);
+        setItemCount(listData.length);
     }, []);
 
     useEffect(() => {
@@ -59,8 +57,8 @@ const TodoList = forwardRef(({ filter, setItemCount }: TodoListProps, ref) => {
             list = listData.filter((item) => item.complete === true);
         }
 
-        setFilteredList(list);
-        setItemCount(list.length);
+        // setFilteredList(list);
+        // setItemCount(list.length);
     }, [filter]);
 
     const updateTaskStatus = (id: number, status: boolean) => {
@@ -75,11 +73,11 @@ const TodoList = forwardRef(({ filter, setItemCount }: TodoListProps, ref) => {
             list = listData.filter((item) => item.complete === true);
         }
 
-        setFilteredList(list);
-        setItemCount(list.length);
+        // setFilteredList(list);
+        // setItemCount(list.length);
     };
 
-    const todoItemList = filteredList.map((item, i) => {
+    const todoItemList = todoItems.map((item, i) => {
         return (
             <li key={i}>
                 <Checkbox id={item.id} isChecked={item.complete} task={item.task} updateTaskStatus={updateTaskStatus} />
